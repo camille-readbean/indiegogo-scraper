@@ -2,7 +2,7 @@
 
 # Indiegogo Scraper and CSV generator
 
-* Authoor - Camille Chin Rui Bin
+* Author - Camille Chin Rui Bin
 
 Scraper for a very specific and niche project for ████████ ███████████ ██████  
 Scrapes the public api every 10 minutes and saves the json. Converts the json into csv for further analysis  
@@ -15,12 +15,12 @@ Empty templates provided in place
 scraper.py - Runs the basic scraper  
 > Was not originally made to run on a server or as a service  
 > Default interval is 600 seconds (10 minutes)  
-> Not built with cron in mind
+> Not built with cron / service in mind
 
 convert_to_csv.py - Converts the json files in dump to 3 csv files for analysis
 
 ```
-usage: scraper.py [-h] [-r] [-at START_AT START_AT]
+usage: scraper.py [-h] [-r] [-at START_AT START_AT] [-nf]
 
 Scrape Indiegogo's community projects trending top 36
 
@@ -29,6 +29,7 @@ optional arguments:
   -r, --run             run continously
   -at START_AT START_AT, --start-at START_AT START_AT
                         time to start at in the format YYYY-MM-DD HH:MM
+  -nf, --no-file        Dont write response to file, mainly for testing
 
 PS C:\Users\████████\indiegogo-scraper>  python .\scraper.py -at 2021-12-30 22:07          
 PID: 1234
@@ -66,7 +67,7 @@ az deployment group create `
   --parameters azure-parameters.json
 ```
 
-### Quick start on VM
+### Quick start on a Linux VM
 
 ```
 # Set timezone
@@ -79,4 +80,6 @@ $ tmux
 $ mkdir dumps
 
 $ python .\scraper.py -r 
+
+$ nohup python /path/to/test.py &
 ```
