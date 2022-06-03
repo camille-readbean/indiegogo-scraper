@@ -42,6 +42,28 @@ sleeping 581 seconds PID 1234 [^C]
 Programme have stopped
 ```
 
+### CSV Output Format
+
+**rankings_snapshots.csv**  
+----
+timestamp, camp1id, camp2id, camp3id . . .   
+  
+**campaign_snapshots.csv**  
+----
+  "timestamp", "project_id", "rank", "rank delta",
+  "funds_raised_amount", "funds raised delta", "dollar per rank raised",
+  "funds_raised_percent",
+  "currency", "days left",
+  "is_indemand", "is_pre_launch",
+
+**campaign_details.csv**  
+----
+  "project_id", "title(s)",
+  "top 6 count", "rank / amt delta list", "average dollar per rank raised",
+  "tagline(s)", "cetegory", "tags",
+  "currency", "open_date", "close_date", "clickthrough_url",
+  "is_indemand", "is_prelaunch", "comments"
+
 ## Azure infra set up
 
 Specific to ████████ ███████████ ██████'s use case.  

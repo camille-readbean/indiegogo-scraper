@@ -4,6 +4,8 @@ from os import times, walk
 import csv, json
 from typing import ChainMap
 
+from campaign import Campaign
+
 
 # To put in rankings_snapshots.csv late
 """
@@ -51,43 +53,6 @@ campaigns_details_csv_headers = \
     "is_indemand", "is_prelaunch", "comments"
 ]
 
-class Campaign:
-    def __init__(self,
-        ranking, campaign_rank, timestamp
-    ):
-        self.project_id: str = str(ranking["project_id"])
-        self.title: str = ranking["title"]
-        self.last_rank: str = campaign_rank
-        self.fund_raised_amount = int(ranking["funds_raised_amount"])
-        self.funds_raised_percent = float(ranking["funds_raised_percent"])
-        self.tagline = ranking["tagline"]
-        self.category = ranking["category"]
-        self.tags = ranking["tags"]
-        self.currency = ranking["currency"]
-
-        self.open_date: datetime = datetime.strptime(ranking['open_date'], "%Y-%m-%dT%H:%M:%S%z")
-        self.close_date: datetime = datetime.strptime(ranking['close_date'], "%Y-%m-%dT%H:%M:%S%z")
-
-        self.clickthrough_url = ranking["clickthrough_url"]
-        self.is_indemand = ranking['is_indemand']
-        self.is_prelaunch = ranking['is_pre_launch']
-
-        self.rank_delta = 0
-        self.funds_raised_delta = 0
-        self.dollar_per_rank_raised = 0
-        self.dollar_per_rank_raised_list = []
-        self.avg_dollar_per_rank_raised = 0
-        self.titles_history = [ranking['title']]
-        self.taglines_history = [ranking['tagline']]
-        # For some reason the included time stamp in the file is parsed to UTC -16HRS
-        self.last_timetstamp: datetime = datetime.strptime(
-            timestamp, "%Y-%m-%d %H%M").replace(tzinfo=timezone.utc)
-        self.days_left = (
-            self.close_date - self.last_timetstamp ).days
-        self.top_six_count = 0
-        self.rank_amt_delta_list = []
-        self.comments = []
-
 campaigns_store: dict[str: Campaign] = {}
 
 file_list = next(walk('dumps'))[2]
@@ -108,8 +73,13 @@ for file in file_list:
 
     print(f'Processing record: {timestamp}\r', end='')
 
-    with open(f'dumps/{file}', 'r') as file:
-        rankings_snapshot_json = json.load(file)['response']['discoverables']
+    try:
+        with open(f'dumps/{file}', 'r') as file:
+            rankings_snapshot_json = json.load(file)['response']['discoverables']
+    except Exception as e:
+            print(f'Error: {e}')
+            print(f'Contents: {file}')
+
 
     campaign_rank = 1
     ranking_list = [timestamp]

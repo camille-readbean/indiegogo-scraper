@@ -3,6 +3,7 @@ dumps/*
 campaign*
 *pid*
 var/*
+.ipynb_checkpoints
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -32,3 +33,4 @@ share/python-wheels/
 *.egg
 MANIFEST
 poetry.lock
+dumps.7z
